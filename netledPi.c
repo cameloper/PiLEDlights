@@ -62,6 +62,7 @@
 #include <time.h>
 #include <unistd.h>
 #include <wiringPi.h>
+#include <softPwm.h>
 
 
 static unsigned int o_refresh = 20; /* milliseconds */
@@ -133,9 +134,9 @@ void led(int on) {
                 return;
 
         if (on) {
-                digitalWrite (o_gpiopin, HIGH);
+                softPwmWrite (o_gpiopin, HIGH);
         } else {
-                digitalWrite (o_gpiopin, LOW);
+                softPwmWrite (o_gpiopin, LOW);
         }
 
         current = on;
@@ -194,7 +195,7 @@ int main(int argc, char **argv) {
 
         wiringPiSetup () ;
         pinMode (o_gpiopin, OUTPUT) ;
-
+        softPwmCreate (o_gpiopin, LOW, 100);
 
         /* Open the netdevices file */
         netdevices = fopen(NETDEVICES, "r");
